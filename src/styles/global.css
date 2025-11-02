@@ -3,9 +3,12 @@
   https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
   License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
  */
-
+@import 'tailwindcss';
+main p a {
+	color: blue;
+}
 :root {
-	--accent: #2337ff;
+	/* --accent: #2337ff; */
 	--accent-dark: #000d8a;
 	--black: 15, 18, 25;
 	--gray: 96, 115, 159;
@@ -43,22 +46,13 @@ body {
 	font-size: 20px;
 	line-height: 1.7;
 }
-main {
+
+/* main {
 	width: 720px;
-	max-width: calc(100% - 2em);
+	max-width: calc(100%);
 	margin: auto;
-	padding: 3em 1em;
-}
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	margin: 0 0 0.5rem 0;
-	color: rgb(var(--black));
-	line-height: 1.2;
-}
+	padding: 2em 0em;
+} */
 h1 {
 	font-size: 3.052em;
 }
@@ -78,6 +72,7 @@ strong,
 b {
 	font-weight: 700;
 }
+
 a {
 	color: var(--accent);
 }

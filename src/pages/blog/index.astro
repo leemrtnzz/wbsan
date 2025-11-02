@@ -4,111 +4,136 @@ import { getCollection } from 'astro:content';
 import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
-import Header from '../../components/Header.astro';
+import Header from '../../components/Header.tsx';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 
+export const prerender = false;
+
+// 1) Ambil semua post
 const posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
+const visible = posts.filter(p => p.data.publish === true);
+
+// 2) Baca query dari URL
+const url = new URL(Astro.request.url);
+const tagFilter = url.searchParams.get('tag');       // /blog?tag=Aplikasi
+const authorFilter = url.searchParams.get('author'); // /blog?author=Ichsan
+const q = (url.searchParams.get('q') ?? '').trim();  // /blog?q=knime
+
+// helper normalisasi buat pencarian sederhana
+const norm = (s = '') =>
+  s.toString().toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+
+// 3) Saring (tag + author + query)
+const filteredPosts = visible.filter((p) => {
+  const tags = Array.isArray(p.data.tags) ? p.data.tags.map(norm) : [];
+  const author = norm(p.data.author);
+  const title = norm(p.data.title);
+  const desc  = norm(p.data.description);
+
+  const byTag = tagFilter ? tags.includes(norm(tagFilter)) : true;
+  const byAuthor = authorFilter ? author === norm(authorFilter) : true;
+
+  // query akan cocok ke title, description, atau salah satu tag
+  const byQuery = q
+    ? (title.includes(norm(q)) || desc.includes(norm(q)) || tags.some(t => t.includes(norm(q))))
+    : true;
+
+  return byTag && byAuthor && byQuery;
+});
 ---
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<style>
-			main {
-				width: 960px;
-			}
-			ul {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 2rem;
-				list-style-type: none;
-				margin: 0;
-				padding: 0;
-			}
-			ul li {
-				width: calc(50% - 1rem);
-			}
-			ul li * {
-				text-decoration: none;
-				transition: 0.2s ease;
-			}
-			ul li:first-child {
-				width: 100%;
-				margin-bottom: 1rem;
-				text-align: center;
-			}
-			ul li:first-child img {
-				width: 100%;
-			}
-			ul li:first-child .title {
-				font-size: 2.369rem;
-			}
-			ul li img {
-				margin-bottom: 0.5rem;
-				border-radius: 12px;
-			}
-			ul li a {
-				display: block;
-			}
-			.title {
-				margin: 0;
-				color: rgb(var(--black));
-				line-height: 1;
-			}
-			.date {
-				margin: 0;
-				color: rgb(var(--gray));
-			}
-			ul li a:hover h4,
-			ul li a:hover .date {
-				color: rgb(var(--accent));
-			}
-			ul a:hover img {
-				box-shadow: var(--box-shadow);
-			}
-			@media (max-width: 720px) {
-				ul {
-					gap: 0.5em;
-				}
-				ul li {
-					width: 100%;
-					text-align: center;
-				}
-				ul li:first-child {
-					margin-bottom: 0;
-				}
-				ul li:first-child .title {
-					font-size: 1.563em;
-				}
-			}
-		</style>
-	</head>
-	<body>
-		<Header />
-		<main>
-			<section>
-				<ul>
-					{
-						posts.map((post) => (
-							<li>
-								<a href={`/blog/${post.id}/`}>
-									{post.data.heroImage && (
-										<Image width={720} height={360} src={post.data.heroImage} alt="" />
-									)}
-									<h4 class="title">{post.data.title}</h4>
-									<p class="date">
-										<FormattedDate date={post.data.pubDate} />
-									</p>
-								</a>
-							</li>
-						))
-					}
-				</ul>
-			</section>
-		</main>
-		<Footer />
-	</body>
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <style>
+      ul { display:flex; flex-wrap:wrap; gap:2rem; list-style:none; margin:0; padding:0; }
+      ul li { width: calc(50% - 1rem); }
+      ul li * { text-decoration:none; transition:.2s ease; }
+      ul li:first-child { width:100%; margin-bottom:1rem; text-align:center; }
+      ul li:first-child img { width:100%; }
+      ul li:first-child .title { font-size:2.369rem; }
+      ul li img { margin-bottom:.5rem; border-radius:12px; }
+      ul li a { display:block; }
+      .title { margin:0; color:rgb(var(--black)); line-height:1; }
+      .date { margin:0; color:rgb(var(--gray)); }
+      ul li a:hover h4, ul li a:hover .date { color:rgb(var(--accent)); }
+      ul a:hover img { box-shadow:var(--box-shadow); }
+      .filters { display:flex; gap:.75rem; align-items:center; margin:1rem 0 1rem; flex-wrap:wrap; }
+      .chip { border:1px solid rgba(0,0,0,.12); border-radius:999px; padding:.25rem .6rem; font-size:.8rem; }
+      .toolbar { display:flex; gap:.75rem; align-items:center; margin:0 0 1.25rem; flex-wrap:wrap; }
+      .input { flex:1; min-width:220px; border:1px solid rgba(0,0,0,.15); border-radius:.5rem; padding:.5rem .75rem; }
+      .btn { border:1px solid rgba(0,0,0,.15); border-radius:.5rem; padding:.45rem .75rem; background:#fff; cursor:pointer; }
+      .btn:hover { background:#f6f6f6; }
+      @media (max-width: 720px) {
+        ul { gap:.5em; }
+        ul li { width:100%; text-align:center; }
+        ul li:first-child { margin-bottom:0; }
+        ul li:first-child .title { font-size:1.563em; }
+      }
+    </style>
+  </head>
+  <body>
+    <Header client:load path={Astro.url.pathname}/>
+    <main class="max-w-4xl mx-auto p-4">
+      <!-- 🔎 Form pencarian (GET) yang tetap mempertahankan tag/author -->
+      <form method="get" class="toolbar">
+        {tagFilter && <input type="hidden" name="tag" value={tagFilter} />}
+        {authorFilter && <input type="hidden" name="author" value={authorFilter} />}
+		<div class="grid grid-cols-1 max-w-4xl w-full justify-center items-center">
+			<div class="flex gap-5">
+				<input
+          type="search"
+          class="input"
+          name="q"
+          placeholder="Find title, description, or tag…"
+          value={q}
+        />
+			<button type="submit" class="py-1 px-4 bg-gray-200 text-black hover:bg-gray-300 rounded-md hidden lg:block">Cari</button>
+        	{(q || tagFilter || authorFilter) && <a class="py-1 px-4 bg-gray-200 text-black hover:bg-gray-300 rounded-md hidden lg:block" href="/blog">Reset</a>}
+			</div>
+			<div class="flex mt-4 gap-4 lg:hidden">
+				<button type="submit" class="py-1 px-4 bg-gray-200 text-black hover:bg-gray-300 rounded-md">Cari</button>
+        {(q || tagFilter || authorFilter) && <a class="py-1 px-4 bg-gray-200 text-black hover:bg-gray-300 rounded-md" href="/blog">Reset</a>}
+			</div>
+		</div>
+      </form>
+
+      <section>
+        <!-- Info filter aktif -->
+        <div class="filters">
+          {tagFilter && <span class="chip">Tag: {tagFilter}</span>}
+          {authorFilter && <span class="chip">Author: {authorFilter}</span>}
+          {q && <span class="chip">Query: “{q}”</span>}
+        </div>
+
+        <ul>
+          {
+            filteredPosts.map((post) => (
+              <li>
+                <a href={`/blog/${post.id}/`}>
+                  {post.data.heroImage && (
+                    <Image width={720} height={360} src={post.data.heroImage} alt="" />
+                  )}
+                  <h4 class="title">{post.data.title}</h4>
+                  <p class="date">
+                    <FormattedDate date={post.data.pubDate} />
+                  </p>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+
+        {filteredPosts.length === 0 && (
+          <p style="margin-top:2rem;color:rgb(var(--gray));" class="text-center">
+            There are no posts or no posts matching the filter/search criteria.
+          </p>
+        )}
+      </section>
+    </main>
+    <Footer />
+  </body>
 </html>

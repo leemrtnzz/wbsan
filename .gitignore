@@ -16,7 +16,13 @@ pnpm-debug.log*
 # environment variables
 .env
 .env.production
-
+example
+src/assets/blog-placeholder-1.jpg
+src/assets/blog-placeholder-2.jpg
+src/assets/blog-placeholder-3.jpg
+src/assets/blog-placeholder-4.jpg
+src/assets/blog-placeholder-5.jpg
+src/assets/blog-placeholder-about.jpg
 # macOS-specific files
 .DS_Store
 
