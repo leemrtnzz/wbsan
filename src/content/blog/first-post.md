@@ -1,7 +1,7 @@
 ---
 title: 'First post'
 description: 'ZEHAHAHAHAHAHAHAHA'
-pubDate: 'Nov 02 2025'
+pubDate: 'Nov 02 2025 11:00'
 heroImage: '../../assets/my.webp'
 author: 'Ichsan'
 tags: []

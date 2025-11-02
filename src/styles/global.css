@@ -4,6 +4,8 @@
   License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
  */
 @import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
 main p a {
 	color: blue;
 }
@@ -58,6 +60,7 @@ h1 {
 }
 h2 {
 	font-size: 2.441em;
+	margin-top: 0px;
 }
 h3 {
 	font-size: 1.953em;
@@ -79,12 +82,10 @@ a {
 a:hover {
 	color: var(--accent);
 }
-p {
-	margin-bottom: 1em;
-}
 .prose p {
 	margin-bottom: 2em;
 }
+
 textarea {
 	width: 100%;
 	font-size: 16px;
@@ -107,13 +108,14 @@ code {
 }
 pre {
 	padding: 1.5em;
+	margin-top: 12px;
+	margin-bottom: 12px;
 	border-radius: 8px;
 }
 pre > code {
 	all: unset;
 }
 blockquote {
-	border-left: 4px solid var(--accent);
 	padding: 0 0 0 20px;
 	margin: 0px;
 	font-size: 1.333em;
@@ -129,6 +131,11 @@ hr {
 	main {
 		padding: 1em;
 	}
+}
+mark {
+	color: #fff;
+	background-color: #5219ad;
+	padding: 2px 2px 2px 2px;
 }
 
 .sr-only {

@@ -3,17 +3,17 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.tsx';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+const pathName = Astro.props.path;
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION}/>
 	</head>
 	<body>
-		
-		<Header client:load path={Astro.url.pathname}/>
-		<main class="p-10 text-xl max-w-3xl mx-auto">
+		<Header client:load path={pathName}/>
+		<main class="text-xl max-w-4xl mx-auto mt-10 max-h-screen py-60">
 			<slot/>
 		</main>
 		<Footer />

@@ -18,7 +18,6 @@ export default defineConfig({
   vite: {
       plugins: [tailwindcss()],
   },
-
   integrations: [mdx(), sitemap(), react(), solidJs()],
   adapter: vercel(),
 });

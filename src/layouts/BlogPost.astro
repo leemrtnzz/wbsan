@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
@@ -10,28 +10,54 @@ type Props = CollectionEntry<'blog'>['data'];
 
 // ⬇️ tambahan: ambil author & tags dari props
 const { title, description, pubDate, updatedDate, heroImage, author, tags } = Astro.props as Props;
+const og = heroImage
+  ? await getImage({ src: heroImage, width: 1200, height: 630, format: 'jpeg' })
+  : undefined;
 const tagsArr = Array.isArray(tags) ? tags : [];
 ---
 
 <html lang="en">
   <head>
-    <BaseHead title={title} description={description} author={author} image={heroImage} />
+    <BaseHead title={title} description={description} image={og?.src ?? heroImage /* fallback */} author={author} ogType="article" ogImageAlt={title} pubDate={pubDate} updatedDate={updatedDate} tags={tags}/>
     <style>
-      .hero-image { width: 100%; }
-      .hero-image img { display:block; margin:0 auto; border-radius:12px; box-shadow: var(--box-shadow); }
-      .prose { width:720px; max-width:calc(100% - 2em); margin:auto; padding:1em; color: rgb(var(--gray-dark)); }
-      .title { margin-bottom:1em; padding:1em 0; text-align:center; line-height:1; }
-      .title h1 { margin:0 0 .5em 0; }
-      .date { margin-bottom:.5em; color: rgb(var(--gray)); }
-      .last-updated-on { font-style: italic; }
-      /* ⬇️ gaya kecil untuk chips tag */
-      .meta { display:flex; flex-direction:column; align-items:center; gap:.5rem; margin-top:.75rem; }
-      .tags { display:flex; flex-wrap:wrap; gap:.5rem; justify-content:center; }
-      .tag { border:1px solid rgba(0,0,0,.12); border-radius:999px; padding:.25rem .75rem; font-size:.8rem; text-decoration:none; color:inherit; }
-      .tag:hover { background:rgba(0,0,0,.04); }
-      .author { color: rgb(var(--gray)); font-size:.9rem; }
-      .author a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
-    </style>
+			/* main {
+				width: calc(100% - 2em);
+				max-width: 100%;
+				margin: 0;
+			} */
+			.hero-image {
+				width: 100%;
+			}
+			.hero-image img {
+				display: block;
+				margin: 0 auto;
+				border-radius: 12px;
+				box-shadow: var(--box-shadow);
+			}
+			.prose {
+				width: 720px;
+				max-width: calc(100% - 2em);
+				margin: auto;
+				padding: 1em;
+				color: rgb(var(--gray-dark));
+			}
+			.title {
+				margin-bottom: 1em;
+				padding: 1em 0;
+				text-align: center;
+				line-height: 1;
+			}
+			.title h1 {
+				margin: 0 0 0.5em 0;
+			}
+			.date {
+				margin-bottom: 0.5em;
+				color: rgb(var(--gray));
+			}
+			.last-updated-on {
+				font-style: italic;
+			}
+		</style>
   </head>
 
   <body>
@@ -65,9 +91,9 @@ const tagsArr = Array.isArray(tags) ? tags : [];
               </div> -->
 
               {tagsArr.length > 0 && (
-                <div class="tags">
+                <div class="tags flex mx-auto gap-5 items-center justify-center">
                   {tagsArr.map((t) => (
-                    <a class="tag" href={`/blog?tag=${encodeURIComponent(t)}`}>#{t}</a>
+                    <a class="tag no-underline border-2 p-1 rounded-xl px-4" href={`/blog?tag=${encodeURIComponent(t)}`}>#{t}</a>
                   ))}
                 </div>
               )}
