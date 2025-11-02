@@ -9,11 +9,16 @@ import react from '@astrojs/react';
 
 import solidJs from '@astrojs/solid-js';
 
+import vercel from '@astrojs/vercel';
+
 // https://astro.build/config
 export default defineConfig({
-    site: 'https://example.com',
-    vite: {
-        plugins: [tailwindcss()],
-    },
-    integrations: [mdx(), sitemap(), react(), solidJs()],
+  site: 'https://wbsan.vercel.app',
+
+  vite: {
+      plugins: [tailwindcss()],
+  },
+
+  integrations: [mdx(), sitemap(), react(), solidJs()],
+  adapter: vercel(),
 });

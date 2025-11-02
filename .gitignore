@@ -28,3 +28,5 @@ src/assets/blog-placeholder-about.jpg
 
 # jetbrains setting folder
 .idea/
+
+.vercel
