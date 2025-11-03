@@ -1,6 +1,6 @@
 ---
 title: 'Force Windows 11 to stop performing automatic updates'
-description: 'ZEHAHAHAHAHAHAHAHA'
+description: 'Kali ini gw bakal share trik (permanent fix) memaksa Windows 11 untuk berhenti melakukan update otomatis...'
 pubDate: 'Nov 02 2025 22:40'
 heroImage: '../../assets/win-trash.png'
 author: 'Ichsan'
@@ -11,7 +11,7 @@ Kali ini gw bakal share trik (permanent fix) memaksa Windows 11 untuk berhenti m
 Software yang digunakan untuk memilih update ini adalah opsional & supplement saja, bisa didownload jika membutuhkannya
 [Disini](https://github.com/DavidXanatos/wumgr/releases/download/v1.1/WuMgr_v1.1b.zip)
 Untuk memaksa Windows berhenti melakukan auto update bisa dilakukan dengan cara:
-1) Buka cmd.exe sebagai admin
+1) Buka cmd.exe sebagai admin (Run as Administrator)
 2) Ketik line berikut ini secara berurutan (copy, paste, enter)
 ```markdown
 > Reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "NoAutoUpdate" /t REG_DWORD /d "0" /f
@@ -40,6 +40,3 @@ Dengan menerapkan permanent fix ini, gw bakal menganggap lu paham & siap menangg
 
 Buat yang gak paham seberapa berbahaya device yang gak pernah install update, bisa liat kembali kasus ransomware Wannacry yang nyusup lewat SMB Share exploit, lu gak ngapa2in tiba-tiba kena ransomware aja.
 Atau bisa baca post [ini](https://www.facebook.com/chandra.nand4/posts/pfbid02u3ZQzmuWQqQJEdsy3xdGC2syK6eQkFsY8nAdvrCGoGZyzjdQ3uDTzCCa2uPvQ9vzl)
-## Links
-
-Kalian bisa coba [Disini](https://fh-wlan.vercel.app/) / [API](https://fh-wlan.vercel.app/api/generate?ssid=)
