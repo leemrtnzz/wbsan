@@ -150,7 +150,7 @@ const pubDate = post.data.pubDate;
     document.getElementById('shareWhatsapp')?.addEventListener('click', (e) => {
       e.preventDefault();
       const text = encodeURIComponent(`${pageTitle}\n${pageUrl}`);
-      window.open(`https://wa.me/?text=${text}`, '_blank');
+      window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
     });
 
     // Telegram Share

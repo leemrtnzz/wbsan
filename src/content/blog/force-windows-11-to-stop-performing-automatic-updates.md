@@ -4,7 +4,7 @@ description: 'Kali ini gw bakal share trik (permanent fix) memaksa Windows 11 un
 pubDate: 'Nov 02 2025 22:40'
 heroImage: '../../assets/win-trash.png'
 author: 'Ichsan'
-tags: ['sharing', 'tech', 'technology', 'windows']
+tags: ['sharing', 'tech', 'technology', 'windows', 'hack']
 publish: true
 ---
 Kali ini gw bakal share trik (permanent fix) memaksa Windows 11 untuk berhenti melakukan update otomatis, sehingga lu bakal bebas melakukan update kapanpun, bahkan bisa memilih update yang ingin diinstall (menjadi manual update)

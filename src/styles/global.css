@@ -6,6 +6,25 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
 
+@layer components {
+  .prose-custom {
+    @apply prose max-w-4xl text-lg text-black
+      prose-h1:font-bold prose-h1:text-xl prose-h1:no-underline
+      prose-a:text-blue-600 prose-a:no-underline
+      prose-p:text-justify 
+      prose-img:rounded-xl
+      prose-headings:underline
+      prose-blockquote:border-l-4 prose-blockquote:border-blue-600
+	  prose-blockquote:text-lg lg:prose-blockquote:text-2xl
+      prose-blockquote:pl-4 prose-blockquote:italic
+	  prose-h2:no-underline
+	  prose-h3:no-underline
+	  prose-h4:no-underline
+	  prose-h5:no-underline
+	  prose-h6:no-underline;
+  }
+}
+
 main p a {
 	color: blue;
 }
@@ -115,11 +134,11 @@ pre {
 pre > code {
 	all: unset;
 }
-blockquote {
+/* blockquote {
 	padding: 0 0 0 20px;
 	margin: 0px;
 	font-size: 1.333em;
-}
+} */
 hr {
 	border: none;
 	border-top: 1px solid rgb(var(--gray-light));

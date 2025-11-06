@@ -4,7 +4,7 @@ description: 'Crack windows ez pz...'
 pubDate: 'Nov 03 2025 20:15'
 heroImage: 'https://res.cloudinary.com/dybxqdxat/image/upload/v1762175217/tutor-crack-win-hero_image_sgva3s.png'
 author: 'Ichsan'
-tags: ['sharing', 'tech', 'technology', 'windows', 'crack']
+tags: ['sharing', 'tech', 'technology', 'windows', 'crack', 'hack']
 publish: true
 ---
 1. Cari powershell dan <mark>Run as Administator</mark>
