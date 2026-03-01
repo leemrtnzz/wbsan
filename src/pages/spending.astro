@@ -1,0 +1,17 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import SpendingApp from "../components/spending";
+import { AUTHOR, SITE_DESCRIPTION, SITE_TITLE } from "../consts";
+import Layout from '../layouts/Index.astro';
+
+import '../styles/global.css';
+---
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} image={'/favicon.png'} author={AUTHOR}/>
+	</head>
+	<body>
+            <SpendingApp client:load/>
+    </body>
+    </html>
