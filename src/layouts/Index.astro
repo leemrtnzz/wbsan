@@ -15,7 +15,7 @@ const pathName = Astro.props.path;
 	</head>
 	<body>
 		<Header client:load path={pathName}/>
-		<main class="text-xl max-w-4xl mx-auto mt-10 max-h-screen py-60">
+		<main class="text-xl max-w-4xl mx-auto mt-10 py-60">
 			<slot/>
 		</main>
 		<Footer />
